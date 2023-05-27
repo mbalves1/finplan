@@ -16,3 +16,12 @@ export default {
   }),
 }
 </script>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  background: #222222;
+}
+
+</style>

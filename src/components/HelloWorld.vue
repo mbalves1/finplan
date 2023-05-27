@@ -1,52 +1,26 @@
 <template>
-  <v-container>
-    <v-row class="text-center">
-      <v-col cols="12">
-        <v-img
-          :src="logo"
-          class="my-3"
-          contain
-          height="200"
-        />
-      </v-col>
-
-      <v-col class="mb-4">
-        <h1 class="display-2 font-weight-bold mb-3">
-          Welcome to the Vuetify 3 Beta
-        </h1>
-
-          <h4>Vite Preview</h4>
-      </v-col>
-
-      <v-col
-        class="mb-5"
-        cols="12"
-      >
-        <h2 class="headline font-weight-bold mb-5">
-          Ecosystem
-        </h2>
-
-        <v-row justify="center">
-
-          <v-card v-for="(fin, id) in exemplos" :key="id">
-            {{ fin }}
-          </v-card>
-        </v-row>
+  <v-container class="main">
+    <v-row class="text-center menu">
+      <v-col cols="12" class="menu-container">
+        <v-icon class="menu-icon left-icon" color="#919191">
+          mdi-menu
+        </v-icon>
+        <v-icon class="menu-icon right-icon" color="#919191">
+          mdi-bell
+        </v-icon>
       </v-col>
     </v-row>
+    <div class="d-flex justify-center mx-5 mt-5">
+      <v-card flat style="background: #9E9E9E;" width="100%" height="200" class="rounded-xl"></v-card>
+    </div>
   </v-container>
 </template>
 
 <script>
-import logo from '../assets/logo.svg'
 import { onMounted, ref } from 'vue';
 
 export default {
   name: 'HelloWorld',
-
-  data: () => ({
-    logo
-  }),
   setup() {
     const exemplos = ref([]);
 
@@ -56,7 +30,7 @@ export default {
     
     const getExemplos = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/services');
+        const response = await fetch('https://backend-finplan.vercel.app/api/services');
         const data = await response.json();
         exemplos.value = data;
         console.log("exemplos", exemplos.value);
@@ -72,3 +46,36 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+
+.main {
+  display: flex;
+  flex-direction: column;
+  max-width: 678px;
+  padding: 20px;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+}
+
+.menu-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 678px;
+}
+
+.menu-icon {
+  font-size: 24px;
+}
+
+.left-icon {
+  margin-right: 10px;
+}
+
+.right-icon {
+  margin-left: 10px;
+}
+</style>

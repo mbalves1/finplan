@@ -21,7 +21,5 @@ export default {
 * {
   margin: 0;
   padding: 0;
-  background: #222222;
 }
-
 </style>

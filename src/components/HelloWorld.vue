@@ -10,54 +10,79 @@
         </v-icon>
       </v-col>
     </v-row>
-    <div class="d-flex justify-center mx-5 mt-5">
-      <v-card flat style="background: #9E9E9E;" width="100%" height="200" class="rounded-xl"></v-card>
+    <div class="d-flex justify-center mt-5">
+      <v-card flat style="background: #B9E9BF;" width="100%" height="130" class="rounded-xl"></v-card>
     </div>
+
+    <v-col>
+      <v-row class="text-center mx-auto main--options">
+        <div v-for="(card, idx) in options" :key="idx" class="d-flex flex-column">
+          <v-card class="rounded-circle mr-4 d-flex justify-center align-center" color="#313131" width="60" height="60">
+            <v-icon style="background: #313131" color="white">{{card.icon}}</v-icon>
+          </v-card>
+          <span style="color: #9E9E9E" class="mr-4 mt-1">
+            {{card.title}}
+          </span>
+        </div>
+      </v-row>
+    </v-col>
   </v-container>
+  <LastTransaction></LastTransaction>
+  <Menu></Menu>
+  
 </template>
 
 <script>
-import { onMounted, ref } from 'vue';
+import Menu from "@/components/Menu.vue"
+import LastTransaction from "@/components/LastTransaction.vue"
+import { ref } from 'vue';
 
 export default {
   name: 'HelloWorld',
+  components: {
+    Menu,
+    LastTransaction
+  },
   setup() {
     const exemplos = ref([]);
 
-    onMounted(() => {
-      getExemplos();
-    });
-    
-    const getExemplos = async () => {
-      try {
-        const response = await fetch('https://backend-finplan.vercel.app/api/services');
-        const data = await response.json();
-        exemplos.value = data;
-        console.log("exemplos", exemplos.value);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    const options = ref([
+      {icon: "mdi-credit-card-plus", title: "entrada"},
+      {icon: "mdi-credit-card-remove", title: "saída"},
+      {icon: "mdi-finance", title: "dashboard"},
+    ])
 
     return {
       exemplos,
-      getExemplos
+      options
     };
   }
 }
 </script>
 <style scoped lang="scss">
-
 .main {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   max-width: 678px;
-  padding: 20px;
+  flex-direction: column;
+  background: #222222;
+
+  &--options {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow: scroll;
+    margin-top: 10px;
+  }
+  &--options::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .menu {
   display: flex;
   justify-content: center;
+  max-height: 60px;
 }
 
 .menu-container {
@@ -77,5 +102,9 @@ export default {
 
 .right-icon {
   margin-left: 10px;
+}
+
+.section {
+  background: #FFFFFF;
 }
 </style>

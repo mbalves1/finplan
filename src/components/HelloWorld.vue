@@ -11,13 +11,26 @@
       </v-col>
     </v-row>
     <div class="d-flex justify-center mt-5">
-      <v-card flat style="background: #B9E9BF;" width="100%" height="130" class="rounded-xl"></v-card>
+      <v-card flat style="background: #B9E9BF;" width="100%" height="130" class="rounded-xl d-flex flex-column justify-center pl-5">
+        <v-title>Total Balance</v-title>
+        <v-subtitle class="pb-5"><strong>{{formatCurrency(totalBalance(true) - totalBalance(false))}}</strong></v-subtitle>
+        <sub>
+          <v-subtitle class="pr-5">Entrada: {{formatCurrency(totalBalance(true))}}</v-subtitle>
+          <v-subtitle>Saída: {{formatCurrency(totalBalance(false))}}</v-subtitle>
+          <v-icon class="pb-1 pl-2">{{totalBalance(true) - totalBalance(false) < 0 ? 'mdi-arrow-bottom-right' : 'mdi-arrow-top-right'}}</v-icon>
+        </sub>
+
+      </v-card>
     </div>
 
     <v-col>
       <v-row class="text-center mx-auto main--options">
         <div v-for="(card, idx) in options" :key="idx" class="d-flex flex-column">
-          <v-card class="rounded-circle mr-4 d-flex justify-center align-center" color="#313131" width="60" height="60">
+          <v-card
+            @click="$router.push(`/${card.redirect}`)"
+            class="rounded-circle mr-4 d-flex justify-center align-center" color="#313131"
+            width="60"
+            height="60">
             <v-icon style="background: #313131" color="white">{{card.icon}}</v-icon>
           </v-card>
           <span style="color: #9E9E9E" class="mr-4 mt-1">
@@ -28,33 +41,50 @@
     </v-col>
   </v-container>
   <LastTransaction></LastTransaction>
-  <Menu></Menu>
   
 </template>
 
 <script>
-import Menu from "@/components/Menu.vue"
 import LastTransaction from "@/components/LastTransaction.vue"
-import { ref } from 'vue';
+import { formatCurrency } from '../composable/format';
+import { useStore } from 'vuex';
+import { onMounted, ref } from 'vue';
 
 export default {
   name: 'HelloWorld',
   components: {
-    Menu,
     LastTransaction
   },
-  setup() {
-    const exemplos = ref([]);
+  setup(props, { root }) {
+    const store = useStore();
+    const releases = ref([]);
+
+    onMounted(() => {
+      releases.value = store.getters.getReleases;
+    })
+
+    const totalBalance = (isEntrance) => {
+      let isType =  isEntrance ? 'Entrada' : 'Saída' 
+      const totalEntradas = releases.value.reduce((sum, item) => {
+        if (item.type === isType) {
+          return sum + item.value;
+        }
+        return sum;
+      }, 0);
+      return totalEntradas;
+    }
 
     const options = ref([
-      {icon: "mdi-credit-card-plus", title: "entrada"},
-      {icon: "mdi-credit-card-remove", title: "saída"},
+      {icon: "mdi-credit-card-plus", title: "entrada", redirect: "fin"},
+      {icon: "mdi-credit-card-remove", title: "saída", redirect: "fin"},
       {icon: "mdi-finance", title: "dashboard"},
     ])
 
     return {
-      exemplos,
-      options
+      formatCurrency,
+      releases,
+      options,
+      totalBalance
     };
   }
 }

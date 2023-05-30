@@ -9,7 +9,6 @@ export default createStore({
   },
   mutations: {
     SET_RELEASE(state, releases) {
-      console.log("mur", releases);
       state.releases = releases;
     }
   },
@@ -19,7 +18,6 @@ export default createStore({
         const response = await fetch('https://backend-finplan.vercel.app/api/services');
         const data = await response.json();
         commit('SET_RELEASE', data);
-        console.log("exemplos", data);
       } catch (error) {
         console.error(error);
       }

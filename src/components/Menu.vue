@@ -2,14 +2,14 @@
   <div class="wrap">
     <div class="footer">
       <div class="menu-container">
-        <v-icon class="menu-icon left-icon">
-          mdi-menu
+        <v-icon @click="$router.push('/')" class="menu-icon left-icon">
+          mdi-home-analytics
         </v-icon>
         <v-icon class="menu-icon right-icon">
-          mdi-bell
+          mdi-finance
         </v-icon>
         <v-icon class="menu-icon right-icon">
-          mdi-menu
+          mdi-account-circle-outline
         </v-icon>
       </div>
     </div>

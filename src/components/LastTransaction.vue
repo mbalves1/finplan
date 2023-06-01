@@ -1,20 +1,20 @@
 <template>
   <v-list class="releases">
-    <v-col class="d-flex justify-space-between">
+    <v-col class="d-flex justify-space-between" style="height: 40px">
       <v-subtitle class="px-4"><strong>Últimos lançamentos</strong></v-subtitle>
-      <span class="px-4">
-        <!-- <v-select
-          :items="items"
-          dense
-          flat
-          solo
-          height="14"
+      <span>
+        <v-select
           class="custom-select"
-          hide-details
-          style="border: none;
-  font-size: 10px;"
+          density="compact"
+          variant="solo"
+          flat
+          :items="items"
+          clear-icon
+          prepend-icon="undefined"
+          v-model="select"
         >
-        </v-select> -->
+          <template #prepend></template>
+        </v-select>
       </span>
     </v-col>
     <div class="scrollable">
@@ -23,7 +23,7 @@
         color="primary"
       >
         <v-list-item
-          v-for="(item, i) in filterDataByMonth('Março')"
+          v-for="(item, i) in filterDataByMonth(select)"
           :key="i"
           class=""
         >
@@ -55,7 +55,8 @@ import { formatCurrency } from '../composable/format';
 
 export default {
   data: () => ({
-    items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
+    select: 'Março',
+    items: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
   }),
   setup() {
     const store = useStore();
@@ -120,8 +121,13 @@ export default {
   max-width: 678px;
   margin: auto;
 }
-.custom-select >>> .v-select__slot {
-  border: none;
+
+::v-deep .custom-select .v-select__selections {
   font-size: 10px;
+}
+
+::v-deep .v-input__control {
+  // width: 30px;
+  padding: 0;
 }
 </style>

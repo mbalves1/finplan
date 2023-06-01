@@ -1,47 +1,50 @@
 <template>
+    <div style="background: #222">
   <v-container class="main">
-    <v-row class="text-center menu">
-      <v-col cols="12" class="menu-container">
-        <v-icon class="menu-icon left-icon" color="#919191">
-          mdi-menu
-        </v-icon>
-        <v-icon class="menu-icon right-icon" color="#919191">
-          mdi-bell
-        </v-icon>
-      </v-col>
-    </v-row>
-    <div class="d-flex justify-center mt-5">
-      <v-card flat style="background: #B9E9BF;" width="100%" height="130" class="rounded-xl d-flex flex-column justify-center pl-5">
-        <span class="d-flex justify-space-between">
-          <v-title>Total Balance</v-title><v-icon class="mr-5" @click="$router.push('/')">mdi-refresh</v-icon>
-        </span>
-        <v-subtitle class="pb-5"><strong>{{formatCurrency(totalBalance(true) - totalBalance(false))}}</strong></v-subtitle>
-        <sub>
-          <v-subtitle class="pr-5">Entrada: {{formatCurrency(totalBalance(true))}}</v-subtitle>
-          <v-subtitle>Saída: {{formatCurrency(totalBalance(false))}}</v-subtitle>
-          <v-icon class="pb-1 pl-2">{{totalBalance(true) - totalBalance(false) < 0 ? 'mdi-arrow-bottom-right' : 'mdi-arrow-top-right'}}</v-icon>
-        </sub>
-      </v-card>
-    </div>
-
-    <v-col>
-      <v-row class="text-center mx-auto main--options">
-        <div v-for="(card, idx) in options" :key="idx" class="d-flex flex-column">
-          <v-card
-            @click="goTo(card)"
-            class="rounded-circle mr-4 d-flex justify-center align-center" color="#313131"
-            width="60"
-            height="60">
-            <v-icon style="background: #313131" color="white">{{card.icon}}</v-icon>
-          </v-card>
-          <span style="color: #9E9E9E" class="mr-4 mt-1">
-            {{card.title}}
-          </span>
-        </div>
+      <v-row class="text-center menu">
+        <v-col cols="12" class="menu-container">
+          <v-icon class="menu-icon left-icon" color="#919191">
+            mdi-menu
+          </v-icon>
+          <v-icon class="menu-icon right-icon" color="#919191">
+            mdi-bell
+          </v-icon>
+        </v-col>
       </v-row>
-    </v-col>
-  </v-container>
+      <div class="d-flex justify-center mt-5">
+        <v-card flat style="background: #B9E9BF;" width="100%" height="130" class="rounded-xl d-flex flex-column justify-center pl-5">
+          <span class="d-flex justify-space-between">
+            <v-title>Total Balance</v-title><v-icon class="mr-5" @click="$router.push('/')">mdi-refresh</v-icon>
+          </span>
+          <v-subtitle class="pb-5"><strong>{{formatCurrency(totalBalance(true) - totalBalance(false))}}</strong></v-subtitle>
+          <sub>
+            <v-subtitle class="pr-5">Entrada: {{formatCurrency(totalBalance(true))}}</v-subtitle>
+            <v-subtitle>Saída: {{formatCurrency(totalBalance(false))}}</v-subtitle>
+            <v-icon class="pb-1 pl-2">{{totalBalance(true) - totalBalance(false) < 0 ? 'mdi-arrow-bottom-right' : 'mdi-arrow-top-right'}}</v-icon>
+          </sub>
+        </v-card>
+      </div>
+
+      <v-col>
+        <v-row class="text-center mx-auto main--options">
+          <div v-for="(card, idx) in options" :key="idx" class="d-flex flex-column">
+            <v-card
+              @click="goTo(card)"
+              class="rounded-circle mr-4 d-flex justify-center align-center" color="#313131"
+              width="60"
+              height="60">
+              <v-icon style="background: #313131" color="white">{{card.icon}}</v-icon>
+            </v-card>
+            <span style="color: #9E9E9E" class="mr-4 mt-1">
+              {{card.title}}
+            </span>
+          </div>
+        </v-row>
+      </v-col>
+    </v-container>
+
   <LastTransaction></LastTransaction>
+    </div>
   
 </template>
 
@@ -67,9 +70,7 @@ export default {
     })
 
     const goTo = (card) => {
-      console.log(card);
       store.commit("SET_TYPE", card.title)
-      console.log("root", root);
       router.push(`/${card.redirect}`)
     }
 

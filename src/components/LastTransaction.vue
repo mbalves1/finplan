@@ -69,7 +69,7 @@ export default {
 
     const filterDataByMonth = (month) => {
       let mes = releases.value.filter(item => item.mounth === month)
-      console.log(mes);
+      console.log(releases.value);
       return releases.value.filter(item => item.mounth === month)
     }
 

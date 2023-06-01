@@ -31,6 +31,13 @@
         required
       ></v-text-field>
 
+       <v-text-field
+        variant="outlined"
+        v-model="state.value"
+        label="Valor"
+        required
+      ></v-text-field>
+
       <v-select
         variant="outlined"
         v-model="state.select"
@@ -45,11 +52,12 @@
         </template>
         <v-radio label="Cartão" value="1"></v-radio>
         <v-radio label="Dinheiro" value="2"></v-radio>
-        <v-radio label="Pix" value="2"></v-radio>
+        <v-radio label="Pix" value="3"></v-radio>
       </v-radio-group>
 
       <v-btn
         class="me-4"
+        @click="postRelease"
       >
         submit
       </v-btn>
@@ -67,6 +75,7 @@
         name: '',
         email: '',
         select: null,
+        value: null,
         checkbox: null,
       }
 
@@ -78,16 +87,27 @@
 
       onMounted(() => {
         radio.value = store.state.type
+
       })
 
+      const postRelease = async () => {
+        console.log("aQUI", state);
+        // try {
+        //   const response = await store.dispatch('postReleases', state);
+        //   console.log(response)
+        // } catch (error) {
+        //   console.error(error);
+        // }
+      }
+
       const items = ref([
-        'Item 1',
+        'Abril',
         'Item 2',
         'Item 3',
         'Item 4',
       ])
 
-      return { state, items, radio }
+      return { state, items, radio, postRelease }
     },
   }
 </script>

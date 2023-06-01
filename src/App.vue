@@ -2,8 +2,8 @@
   <v-app>
     <v-main>
       <router-view/>
+      <Menu></Menu>
     </v-main>
-    <Menu></Menu>
   </v-app>
 </template>
 
@@ -24,5 +24,7 @@ export default {
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  /* background: #222; */
 }
 </style>

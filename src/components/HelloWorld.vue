@@ -12,9 +12,9 @@
         </v-col>
       </v-row>
       <div class="d-flex justify-center mt-5">
-        <v-card flat style="background: #B9E9BF;" width="100%" height="130" class="rounded-xl d-flex flex-column justify-center pl-5">
+        <v-card flat style="background: #B9E9BF;" width="100%" height="130" class="rounded-xl d-flex flex-column justify-center pl-5 backgrondCustom">
           <span class="d-flex justify-space-between">
-            <v-title>Total Balance</v-title><v-icon class="mr-5" @click="$router.push('/')">mdi-refresh</v-icon>
+            <v-title>Total Balance</v-title><v-icon class="mr-5" @click="$router.push('/home')">mdi-refresh</v-icon>
           </span>
           <v-subtitle class="pb-5"><strong>{{formatCurrency(totalBalance(true) - totalBalance(false))}}</strong></v-subtitle>
           <sub>
@@ -65,7 +65,8 @@ export default {
     const router = useRouter();
     const releases = ref([]);
 
-    onMounted(() => {
+    onMounted(async() => {
+      await store.dispatch('getReleases');
       releases.value = store.getters.getReleases;
     })
 
@@ -148,4 +149,11 @@ export default {
 .section {
   background: #FFFFFF;
 }
+
+// .backgrondCustom {
+//   background-image: url("../assets/trianglify-lowres1.png");
+//   background-size: cover; /* ajusta o tamanho da imagem para cobrir todo o elemento */
+//   background-repeat: no-repeat; /* evita que a imagem seja repetida */
+// }
+
 </style>

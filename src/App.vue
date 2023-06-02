@@ -2,13 +2,15 @@
   <v-app>
     <v-main>
       <router-view/>
-      <Menu></Menu>
+      <Menu v-if="isLogin"></Menu>
     </v-main>
   </v-app>
 </template>
 
 <script>
+import { computed } from 'vue'
 import Menu from './components/Menu.vue'
+import { useRouter } from 'vue-router';
 
 export default {
   components: { Menu },
@@ -17,6 +19,15 @@ export default {
   data: () => ({
     //
   }),
+  setup(pros, { root }) {
+    const router = useRouter();
+
+    const isLogin = computed(() => {
+      return router.currentRoute.value.path !== "/"
+    })
+
+    return {isLogin}
+  }
 }
 </script>
 

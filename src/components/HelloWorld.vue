@@ -14,7 +14,10 @@
       <div class="d-flex justify-center mt-5">
         <v-card flat style="background: #B9E9BF;" width="100%" height="130" class="rounded-xl d-flex flex-column justify-center pl-5 backgrondCustom">
           <span class="d-flex justify-space-between">
-            <v-title>Total Balance</v-title><v-icon class="mr-5" @click="$router.push('/home')">mdi-refresh</v-icon>
+            <v-title>Total Balance</v-title>
+            <!-- <v-btn  flat> -->
+              <v-icon class="mr-5" @click="refresh" :class="{ rotating: isRotating }">mdi-refresh</v-icon>
+            <!-- </v-btn> -->
           </span>
           <v-subtitle class="pb-5"><strong>{{formatCurrency(totalBalance(true) - totalBalance(false))}}</strong></v-subtitle>
           <sub>
@@ -67,11 +70,21 @@ export default {
     const store = useStore();
     const router = useRouter();
     const releases = ref([]);
+    const isRotating = ref(false);
 
     onMounted(async() => {
       await store.dispatch('getReleases');
       releases.value = store.getters.getReleases;
     })
+
+    const refresh = async () => {
+      isRotating.value = true
+      await store.dispatch('getReleases');
+      releases.value = store.getters.getReleases;
+      setTimeout(() => {
+        isRotating.value = false
+      }, 1000)
+    }
 
     const goTo = (card) => {
       store.commit("SET_TYPE", card.title)
@@ -99,7 +112,10 @@ export default {
       formatCurrency,
       releases,
       options,
-      totalBalance,goTo
+      totalBalance,
+      goTo,
+      refresh,
+      isRotating
     };
   }
 }
@@ -156,6 +172,19 @@ export default {
 
 .section {
   background: #FFFFFF;
+}
+
+.rotating {
+  animation: rotate 1s infinite linear;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 // .backgrondCustom {

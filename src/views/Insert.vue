@@ -1,5 +1,14 @@
 <template>
   <div class="form">
+    <v-snackbar
+      v-model="showSnackbar"
+      color="green"
+      :timeout="3000"
+      location="right top"
+      class="mt-9"
+    >
+      Registrado com sucesso!
+    </v-snackbar>
     <v-dialog v-model="open">
       <v-card class="pa-5 pt-0">
         <v-card-title class="pa-2">Deseja registrar:</v-card-title>
@@ -20,7 +29,7 @@
             <v-btn
               class="mt-4 button"
               theme
-              @click="postRelease"
+              @click="postReleases"
               flat
               :ripple="true"
               variant="outlined"
@@ -145,6 +154,7 @@ import { postReleases } from '@/service/api';
       }
 
       const radio = ref(null)
+      const showSnackbar = ref(false)
 
       const open = ref(false)
 
@@ -160,29 +170,25 @@ import { postReleases } from '@/service/api';
 
       const openModal = () => {
         open.value = !open.value
-        // try {
-          //   const response = await store.dispatch('postReleases', state);
-        //   console.log(response)
-        // } catch (error) {
-          //   console.error(error);
-        // }
       }
 
       const postReleases = async () => {
         console.log("aQUI", state);
-        // try {
-        //   const response = await store.dispatch('postReleases', state);
-        //   console.log(response)
-        // } catch (error) {
-        //   console.error(error);
-        // }
+        open.value = !open.value
+        showSnackbar.value = true
+        try {
+          const response = await store.dispatch('postReleases', state);
+          console.log(">", response);
+        } catch (error) {
+          console.error(error);
+        }
       }
 
       const items = ref([
         'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
       ])
 
-      return { state, items, radio, openModal, open, postReleases }
+      return { state, items, radio, openModal, open, postReleases, showSnackbar }
     },
   }
 </script>

@@ -20,9 +20,16 @@
     <div class="scrollable">
       <v-list-item-group
         v-model="selectedItem"
-        color="primary"
-      >
+        color="#B9E9BF"
+      > 
+        <v-col class="d-flex justify-center" v-if="loading">
+          <v-progress-circular
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
+        </v-col>
         <v-list-item
+          v-else
           v-for="(item, i) in filterDataByMonth(select)"
           :key="i"
           class=""
@@ -55,19 +62,34 @@ import { formatCurrency } from '../composable/format';
 
 export default {
   data: () => ({
-    select: 'Março',
-    items: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+    select: 'Todos',
+    items: ['Todos', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
   }),
   setup() {
     const store = useStore();
     const releases = ref([]);
+    const loading = ref(false);
 
     onMounted(async () => {
-      await store.dispatch('getReleases');
-      releases.value = store.getters.getReleases;
+      getData()
     });
 
+    const getData = async () => {
+      try {
+        loading.value = true
+        await store.dispatch('getReleases');
+        releases.value = store.getters.getReleases;
+        loading.value = false
+      } catch (erro) {
+        loading.value = false
+        console.error(erro)
+      }
+    }
+
     const filterDataByMonth = (month) => {
+      if (month === 'Todos') {
+        return releases.value
+      }
       let mes = releases.value.filter(item => item.mounth === month)
       console.log(releases.value);
       return releases.value.filter(item => item.mounth === month)
@@ -93,7 +115,8 @@ export default {
       formatCurrency,
       releases,
       processPayment,
-      filterDataByMonth
+      filterDataByMonth,
+      loading
     };
   }
 }
@@ -115,6 +138,24 @@ export default {
   max-height: 400px;
   margin-top: 10px;
   margin-bottom: 100px;
+
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+.scrollable::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  border-radius: 50px;
+  // outline: 1px solid slategrey;
+}
+
+/* Estilizando o fundo da barra de rolagem */
+.scrollable::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 .releases {

@@ -43,12 +43,14 @@
       </v-col>
     </v-container>
 
-  <LastTransaction></LastTransaction>
+    <LastTransaction style="padding-top: 310px"></LastTransaction>
+    <Menu></Menu>
     </div>
   
 </template>
 
 <script>
+import Menu from '@/components/Menu.vue'
 import LastTransaction from "@/components/LastTransaction.vue"
 import { formatCurrency } from '../composable/format';
 import { useStore } from 'vuex';
@@ -58,7 +60,8 @@ import { onMounted, ref } from 'vue';
 export default {
   name: 'HelloWorld',
   components: {
-    LastTransaction
+    LastTransaction,
+    Menu
   },
   setup(props, { root }) {
     const store = useStore();
@@ -108,6 +111,11 @@ export default {
   max-width: 678px;
   flex-direction: column;
   background: #222222;
+  position: fixed; /* Adicione esta linha */
+  top: 0; /* Adicione esta linha */
+  left: 0; /* Adicione esta linha */
+  right: 0; /* Adicione esta linha */
+  z-index: 999; 
 
   &--options {
     display: flex;

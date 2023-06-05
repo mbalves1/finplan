@@ -14,3 +14,10 @@ export async function postReleases(payload) {
   console.log("data", response);
   return data;
 }
+
+export async function deleteRelease(id) {
+  console.log(">>", id);
+  return await fetch(`https://backend-finplan.vercel.app/api/services/${id}`, {
+    method: 'DELETE',
+  });
+}

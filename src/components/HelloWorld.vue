@@ -1,6 +1,6 @@
 <template>
-    <div style="background: #222">
-  <v-container class="main">
+  <div style="background: #222;">
+    <v-container class="main">
       <v-row class="text-center menu">
         <v-col cols="12" class="menu-container">
           <v-icon class="menu-icon left-icon" color="#919191">
@@ -12,7 +12,7 @@
         </v-col>
       </v-row>
       <div class="d-flex justify-center mt-5">
-        <v-card flat style="background: #B9E9BF;" width="100%" height="130" class="rounded-xl d-flex flex-column justify-center pl-5 backgrondCustom">
+        <v-card flat width="100%" height="130" class="rounded-xl d-flex flex-column justify-center pl-5 backgrondCustom">
           <span class="d-flex justify-space-between">
             <v-title>Total Balance</v-title>
             <!-- <v-btn  flat> -->
@@ -58,7 +58,7 @@ import LastTransaction from "@/components/LastTransaction.vue"
 import { formatCurrency } from '../composable/format';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
 export default {
   name: 'HelloWorld',
@@ -103,10 +103,15 @@ export default {
     }
 
     const options = ref([
-      {icon: "mdi-credit-card-plus", title: "entrada", redirect: "fin"},
-      {icon: "mdi-credit-card-remove", title: "saída", redirect: "fin"},
-      {icon: "mdi-finance", title: "dashboard"},
+      {icon: "mdi-credit-card-plus", title: "Entrada", redirect: "fin"},
+      {icon: "mdi-credit-card-remove", title: "Saída", redirect: "fin"},
+      {icon: "mdi-finance", title: "dashboard", redirect: "fin"},
     ])
+
+    watch(releases, async () => {
+      await store.dispatch('getReleases');
+      releases.value = store.getters.getReleases;
+    });
 
     return {
       formatCurrency,
@@ -187,10 +192,11 @@ export default {
   }
 }
 
-// .backgrondCustom {
-//   background-image: url("../assets/trianglify-lowres1.png");
-//   background-size: cover; /* ajusta o tamanho da imagem para cobrir todo o elemento */
-//   background-repeat: no-repeat; /* evita que a imagem seja repetida */
-// }
+.backgrondCustom {
+  background: #B9E9BF;
+  // background-image: url("../assets/trianglify-lowres1.png");
+  // background-size: cover; /* ajusta o tamanho da imagem para cobrir todo o elemento */
+  // background-repeat: no-repeat; /* evita que a imagem seja repetida */
+}
 
 </style>

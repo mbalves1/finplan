@@ -1,4 +1,4 @@
-import { getReleases, postReleases } from "@/service/api.js";
+import { getReleases, postReleases, deleteRelease } from "@/service/api.js";
 
 const release = {
   state: {
@@ -40,6 +40,16 @@ const release = {
         console.log("response", response);
         const data = await response.json();
         commit('SET_RELEASE', data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async deleteRelease({ commit }, payload) {
+      try {
+        const response = await deleteRelease(payload);
+        console.log("response action", response);
+        const data = await response.json();
+        console.log("Data", data);
       } catch (error) {
         console.error(error);
       }

@@ -1,21 +1,28 @@
 <template>
-  <v-list class="releases">
-    <v-col class="d-flex justify-space-between" style="height: 40px">
-      <v-subtitle class="px-4"><strong>Últimos lançamentos</strong></v-subtitle>
-      <span>
-        <v-select
-          class="custom-select"
-          density="compact"
-          variant="solo"
-          flat
-          :items="items"
-          clear-icon
-          prepend-icon="undefined"
-          v-model="select"
-        >
-          <template #prepend></template>
-        </v-select>
-      </span>
+<div class="container-release">
+  <v-snackbar
+    v-model="showSnackbar"
+    color="green"
+    :timeout="3000"
+    location="right top"
+    class="mt-9"
+  >
+    Deletado com sucesso!
+  </v-snackbar>
+  <v-list class="list">
+    <v-col class="d-flex justify-space-between align-center" style="height: 40px;">
+      <v-subtitle class="mt-5"><strong>Últimos lançamentos</strong></v-subtitle>
+      <v-select
+        class="custom-select mt-9"
+        density="compact"
+        variant="solo"
+        flat
+        :items="items"
+        clear-icon
+        prepend-icon="undefined"
+        v-model="select"
+      >
+      </v-select>
     </v-col>
     <div class="scrollable">
       <v-list-item-group
@@ -25,16 +32,17 @@
         <v-col class="d-flex justify-center" v-if="loading">
           <v-progress-circular
             indeterminate
-            color="primary"
+            color="#B9E9BF"
           ></v-progress-circular>
         </v-col>
         <v-list-item
           v-else
           v-for="(item, i) in filterDataByMonth(select)"
           :key="i"
-          class=""
+          
+          @click="toggleItem(i)"
         >
-          <v-list-item-content class="d-flex flex-row justify-space-between align-center">
+          <v-list-item-content class="d-flex flex-row justify-space-between align-center" :class="{ 'shifted': selectedItemId === i }">
             <div class="d-flex align-center">
               <v-icon color="#FFF" style="background: #313131; border-radius: 50%; padding: 20px" class="">
                 {{item.type === 'Saída' ? 'mdi-cash-minus' : 'mdi-cash-plus' }}
@@ -47,13 +55,17 @@
             <span :style="`color:${item.type === 'Saída' ? 'red' : 'green' }`">
               <v-icon size="12">{{item.type === 'Saída' ? 'mdi-minus' : 'mdi-plus'}}</v-icon>
               {{ formatCurrency(item.value) }}</span>
+            <div v-show="selectedItemId === i" style="background: red; padding: 15px; margin-right: -50px; border-radius: 17px;">
+              <v-icon class="shift-button" @click="deleteRel(item)">mdi-delete</v-icon>
+            </div>
 
           </v-list-item-content>
-          <v-divider class="mt-2"></v-divider>
+          <v-divider class="mt-2 no-shifted"></v-divider>
         </v-list-item>
       </v-list-item-group>
     </div>
   </v-list>
+</div>
 </template>
 <script>
 import { ref, onMounted } from 'vue';
@@ -69,6 +81,16 @@ export default {
     const store = useStore();
     const releases = ref([]);
     const loading = ref(false);
+    const selectedItemId = ref(null);
+    const showSnackbar = ref(false)
+
+    const toggleItem = (index) => {
+      if (selectedItemId.value === index) {
+        selectedItemId.value = null;
+      } else {
+        selectedItemId.value = index;
+      }
+    };
 
     onMounted(async () => {
       getData()
@@ -97,18 +119,29 @@ export default {
 
     const processPayment = (item) => {
       if (item.method_payment === 'cartao') {
-        if (item.type === 'entrada') {
+        if (item.type === 'Entrada') {
           return 'mdi-cash-plus';
-        } else if (item.type === 'saida') {
+        } else if (item.type === 'Saída') {
           return'mdi-finance';
         }
       } else if (item.method_payment === 'dinheiro') {
-        if (item.type === 'entrada') {
+        if (item.type === 'Entrada') {
           'mdi-finance'
-        } else if (item.type === 'saida') {
+        } else if (item.type === 'Saída') {
           'mdi-finance'
         }
       }
+    }
+
+    const deleteRel = async (item) => {
+      const { _id } = item
+      try {
+        await store.dispatch('deleteRelease', _id);
+        await getData()
+        showSnackbar.value = true
+      } catch (err) {
+        throw new Error
+      } 
     }
 
     return {
@@ -116,12 +149,25 @@ export default {
       releases,
       processPayment,
       filterDataByMonth,
-      loading
+      loading,
+      selectedItemId,
+      toggleItem,
+      deleteRel,
+      showSnackbar,
     };
   }
 }
 </script>
 <style scoped lang="scss">
+.shifted {
+  transform: translateX(-50px);
+  transition: transform 0.3s ease-out;
+}
+
+.shift-button {
+  margin-left: auto;
+}
+
 .list {
   background: #F7F7F7;
   max-width: 678px;
@@ -129,33 +175,21 @@ export default {
   margin: auto;
   justify-content: flex-start;
   flex-direction: column;
-  padding: 5px 16px;
+  padding: 5px 5px;
   overflow: hidden;
 }
 
 .scrollable {
   overflow-y: auto;
-  max-height: 400px;
+  max-height: 300px;
+  height: 100%;
   margin-top: 10px;
-  margin-bottom: 100px;
-
-  scrollbar-width: thin;
-  scrollbar-color: #888 #f1f1f1;
+  padding-bottom: 50px;
 }
 
-.scrollable::-webkit-scrollbar {
-  width: 5px;
-}
-
-.scrollable::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
-  border-radius: 50px;
-  // outline: 1px solid slategrey;
-}
-
-/* Estilizando o fundo da barra de rolagem */
-.scrollable::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+.hide-scrollbar::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
 }
 
 .releases {

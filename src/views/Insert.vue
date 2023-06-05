@@ -15,7 +15,7 @@
         <v-divider class="pb-3"></v-divider>
         <span class="d-flex justify-center" style="margin: auto">
           <v-card-text class="pa-0 text-capitalize">
-            <v-icon size="15" :color="radio === 'saída' ? 'red' : 'green'">{{radio === "saída" ? 'mdi-arrow-bottom-right' : 'mdi-arrow-top-right'}}</v-icon>
+            <v-icon size="15" :color="radio === 'Saída' ? 'red' : 'green'">{{radio === "Saída" ? 'mdi-arrow-bottom-right' : 'mdi-arrow-top-right'}}</v-icon>
             {{radio}}
           </v-card-text>
         </span>
@@ -50,11 +50,11 @@
     </v-dialog>
     <v-card class="pa-4 form-card ma-5 mt-6" flat>
       <form>
-        <v-row class="justify-space-between mb-5">
+        <v-row class="justify-space-between mb-2 mx-1">
           <v-icon @click="$router.push('/home')">
             mdi-arrow-left
           </v-icon>
-          <v-icon>
+          <v-icon @click="clear">
             mdi-delete
           </v-icon>
         </v-row>
@@ -64,14 +64,14 @@
               <strong>Tipo de lançamento</strong>
             </div>
           </template>
-          <v-radio label="Entrada" value="entrada"></v-radio>
-          <v-radio label="Saída" value="saída"></v-radio>
+          <v-radio label="Entrada" value="Entrada"></v-radio>
+          <v-radio label="Saída" value="Saída"></v-radio>
         </v-radio-group>
 
         <v-text-field
           variant="outlined"
           v-model="state.name"
-          class="my-3"
+          class="my-1"
           :counter="10"
           label="Name"
           required
@@ -83,7 +83,7 @@
           v-model="state.description"
           label="Descrição"
           required
-          class="my-3"
+          class="my-1"
         ></v-text-field>
 
         <v-text-field
@@ -91,7 +91,8 @@
           v-model="state.value"
           label="Valor"
           required
-          class="my-3"
+          class="my-1"
+          type="number"
           :rules="[v => !!v || 'O valor é obrigatório']"
         ></v-text-field>
 
@@ -101,10 +102,11 @@
           :items="items"
           label="Mês"
           required
-          class="my-3"
+          class="my-1"
+          hide-details
         ></v-select>
 
-        <v-radio-group inline>
+        <v-radio-group inline hide-details="">
           <template v-slot:label>
             <div><strong>Metodo de pagamento</strong></div>
           </template>
@@ -163,6 +165,10 @@ import { postReleases } from '@/service/api';
         type: radio
       })
 
+      const items = ref([
+        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+      ])
+
       onMounted(() => {
         console.log("store.state", store.state);
         radio.value = store.state.release.type
@@ -173,22 +179,30 @@ import { postReleases } from '@/service/api';
       }
 
       const postReleases = async () => {
-        console.log("aQUI", state);
         open.value = !open.value
         showSnackbar.value = true
         try {
-          const response = await store.dispatch('postReleases', state);
-          console.log(">", response);
+          await store.dispatch('postReleases', state);
+          await store.dispatch('getReleases');
         } catch (error) {
           console.error(error);
         }
       }
 
-      const items = ref([
-        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-      ])
+      const clear = () => {
+        Object.assign(state, initialState);
+      }
 
-      return { state, items, radio, openModal, open, postReleases, showSnackbar }
+      return {
+        state,
+        items,
+        radio,
+        openModal,
+        open,
+        postReleases,
+        showSnackbar,
+        clear
+      }
     },
   }
 </script>

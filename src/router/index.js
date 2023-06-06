@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Insert from '../views/Insert.vue'
 import Hello from '../views/Hello.vue'
+import Dashboard from '../views/Dashboard.vue'
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: '/fin',
     name: 'Insert',
     component: Insert
+  },
+  {
+    path: '/dash',
+    name: 'Dashboard',
+    component: Dashboard
   },
   {
     path: '/about',

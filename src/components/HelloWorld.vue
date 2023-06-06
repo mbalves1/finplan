@@ -105,7 +105,7 @@ export default {
     const options = ref([
       {icon: "mdi-credit-card-plus", title: "Entrada", redirect: "fin"},
       {icon: "mdi-credit-card-remove", title: "Saída", redirect: "fin"},
-      {icon: "mdi-finance", title: "dashboard", redirect: "fin"},
+      {icon: "mdi-finance", title: "dashboard", redirect: "dash"},
     ])
 
     watch(releases, async () => {

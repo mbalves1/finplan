@@ -113,7 +113,6 @@ export default {
         return releases.value
       }
       let mes = releases.value.filter(item => item.mounth === month)
-      console.log(releases.value);
       return releases.value.filter(item => item.mounth === month)
     }
 

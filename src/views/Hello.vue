@@ -7,7 +7,7 @@
 			<span class="custom--subtitle">p</span><span class="custom--subtitle">l</span><span class="custom--subtitle">a</span><span class="custom--subtitle">n</span>
 		</div>
     <img src="../assets/Revenue-bro.svg" class="">
-    <v-btn class="custom-btn" rounded @click="$router.push('/home')">Login
+    <v-btn class="custom-btn floating" rounded @click="$router.push('/home')">Login
       <v-icon right class="ml-5">mdi-arrow-right</v-icon>
     </v-btn>
   </div>
@@ -73,7 +73,7 @@
  
 @keyframes floating {
   0% { transform: translate(0,  0px); }
-  50%  { transform: translate(0, 20px); }
+  50%  { transform: translate(30px, 0px); }
   100%   { transform: translate(0, -0px); }   
 }
 

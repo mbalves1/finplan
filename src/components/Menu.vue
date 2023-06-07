@@ -39,6 +39,9 @@
     height: 70px;
     padding: 0;
     box-shadow: 0px -11px 15px -4px rgba(0,0,0,0.1);
+  }
+  &-icon {
+    font-size: 32px;
   }  
 }
 </style>

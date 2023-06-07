@@ -5,7 +5,7 @@
         <v-icon @click="$router.push('/home')" class="menu-icon left-icon">
           mdi-home-analytics
         </v-icon>
-        <v-icon class="menu-icon right-icon">
+        <v-icon @click="$router.push('/dash')" class="menu-icon right-icon">
           mdi-finance
         </v-icon>
         <v-icon @click="$router.push('/')" class="menu-icon right-icon">

@@ -1,5 +1,5 @@
 <template>
-  <div style="background: #222;">
+  <div style="background: #222; height: 100vh">
     <v-container class="main">
       <v-row class="text-center menu">
         <v-col cols="12" class="menu-container">
@@ -46,7 +46,7 @@
       </v-col>
     </v-container>
 
-    <LastTransaction style="padding-top: 310px"></LastTransaction>
+    <LastTransaction ></LastTransaction>
     <Menu></Menu>
     </div>
   
@@ -132,11 +132,11 @@ export default {
   max-width: 678px;
   flex-direction: column;
   background: #222222;
-  position: fixed; /* Adicione esta linha */
-  top: 0; /* Adicione esta linha */
-  left: 0; /* Adicione esta linha */
-  right: 0; /* Adicione esta linha */
-  z-index: 999; 
+  // position: fixed; /* Adicione esta linha */
+  // top: 0; /* Adicione esta linha */
+  // left: 0; /* Adicione esta linha */
+  // right: 0; /* Adicione esta linha */
+  // z-index: 999; 
 
   &--options {
     display: flex;

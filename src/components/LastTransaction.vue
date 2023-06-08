@@ -10,7 +10,7 @@
     Deletado com sucesso!
   </v-snackbar>
   <v-list class="list">
-    <v-col class="d-flex justify-space-between align-center" style="height: 40px;">
+    <v-col class="d-flex justify-space-between align-center" style="max-height: 40px;">
       <v-subtitle class="mt-5"><strong>Últimos lançamentos</strong></v-subtitle>
       <v-select
         class="custom-select mt-9"
@@ -176,6 +176,7 @@ export default {
   flex-direction: column;
   padding: 5px 5px;
   overflow: hidden;
+  height: 52vh;
 }
 
 .scrollable {
@@ -183,7 +184,7 @@ export default {
   max-height: 300px;
   height: 100%;
   margin-top: 10px;
-  padding-bottom: 50px;
+  // padding-bottom: 50px;
 }
 
 .hide-scrollbar::-webkit-scrollbar {

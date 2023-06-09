@@ -9,6 +9,7 @@
   >
     Deletado com sucesso!
   </v-snackbar>
+  <Modal :data="itemToDelete" :openModal="open" @deleteById="deleted" @cancelDeleteById="close"></Modal>
   <v-list class="list">
     <v-col class="d-flex justify-space-between align-center" style="max-height: 40px;">
       <v-subtitle class="mt-5"><strong>Últimos lançamentos</strong></v-subtitle>
@@ -68,21 +69,28 @@
 </div>
 </template>
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
 import { formatCurrency } from '../composable/format';
+
+import Modal from '@/components/shared/Modal.vue'
 
 export default {
   data: () => ({
     select: 'Todos',
     items: ['Todos', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
   }),
+  components: {
+    Modal
+  },
   setup() {
     const store = useStore();
     const releases = ref([]);
     const loading = ref(false);
     const selectedItemId = ref(null);
     const showSnackbar = ref(false)
+    const open = ref(false)
+    const itemToDelete = ref([])
 
     const toggleItem = (index) => {
       if (selectedItemId.value === index) {
@@ -132,8 +140,11 @@ export default {
       }
     }
 
-    const deleteRel = async (item) => {
-      const { _id } = item
+    const deleted = async (event) => {
+      console.log("true", event);
+      console.log("trwwwue", !event);
+      open.value = !event
+      const { _id } = itemToDelete.value
       try {
         await store.dispatch('deleteRelease', _id);
         await getData()
@@ -141,6 +152,15 @@ export default {
       } catch (err) {
         throw new Error
       } 
+    }
+
+    const deleteRel = async (item) => {
+      itemToDelete.value = item
+      open.value = true
+    }
+
+    const close = () => {
+      open.value = false
     }
 
     return {
@@ -153,6 +173,10 @@ export default {
       toggleItem,
       deleteRel,
       showSnackbar,
+      open,
+      itemToDelete,
+      deleted,
+      close
     };
   }
 }

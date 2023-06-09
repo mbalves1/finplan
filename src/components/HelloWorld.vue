@@ -108,10 +108,10 @@ export default {
       {icon: "mdi-finance", title: "dashboard", redirect: "dash"},
     ])
 
-    watch(releases, async () => {
-      await store.dispatch('getReleases');
-      releases.value = store.getters.getReleases;
-    });
+    // watch(releases, async () => {
+    //   await store.dispatch('getReleases');
+    //   releases.value = store.getters.getReleases;
+    // });
 
     return {
       formatCurrency,

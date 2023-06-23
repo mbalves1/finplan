@@ -79,6 +79,8 @@ ChartJS.register(ArcElement, Tooltip, Legend, PointElement)
       };
     });
 
+
+
     onMounted(async () => {
       await store.dispatch('getReleases');
       releasesOut.value = store.getters.getReleases.filter(rel => rel.type === 'Saída');
@@ -95,8 +97,12 @@ ChartJS.register(ArcElement, Tooltip, Legend, PointElement)
   display: flex;
   align-items: flex-start;
   background: #222;
+  justify-content: center;
 }
 .dashboard {
+  max-width: 674px;
+  display: flex;
+  flex-direction: column;
   &--sheet {
     background: #1f1f1f;
     padding: 20px 40px 20px 0;

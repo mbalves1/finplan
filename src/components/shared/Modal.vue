@@ -23,7 +23,7 @@
             variant="outlined"
             size="x-large"
             color="error"
-          >Cancelar</v-btn>
+          >Deletar</v-btn>
           <v-btn
             class="mt-4 button-cancel mr-0"
             theme

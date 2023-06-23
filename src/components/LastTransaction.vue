@@ -43,7 +43,8 @@
           
           @click="toggleItem(i)"
         >
-          <v-list-item-content class="d-flex flex-row justify-space-between align-center" :class="{ 'shifted': selectedItemId === i }">
+          <span class="date">{{formatDate(item.createdAt)}}</span>
+          <v-list-item-content class="d-flex flex-row justify-space-between align-center mb-2" :class="{ 'shifted': selectedItemId === i }">
             <div class="d-flex align-center">
               <v-icon color="#FFF" style="background: #313131; border-radius: 50%; padding: 20px" class="">
                 {{item.type === 'Saída' ? 'mdi-cash-minus' : 'mdi-cash-plus' }}
@@ -61,7 +62,7 @@
             </div>
 
           </v-list-item-content>
-          <v-divider class="mt-2 no-shifted"></v-divider>
+          <v-divider class="mt-0"></v-divider>
         </v-list-item>
       </v-list-item-group>
     </div>
@@ -71,7 +72,7 @@
 <script>
 import { ref, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
-import { formatCurrency } from '../composable/format';
+import { formatCurrency, formatDate } from '../composable/format';
 
 import Modal from '@/components/shared/Modal.vue'
 
@@ -141,8 +142,6 @@ export default {
     }
 
     const deleted = async (event) => {
-      console.log("true", event);
-      console.log("trwwwue", !event);
       open.value = !event
       const { _id } = itemToDelete.value
       try {
@@ -165,6 +164,7 @@ export default {
 
     return {
       formatCurrency,
+      formatDate,
       releases,
       processPayment,
       filterDataByMonth,
@@ -205,7 +205,7 @@ export default {
 
 .scrollable {
   overflow-y: auto;
-  max-height: 300px;
+  // max-height: 300px;
   height: 100%;
   margin-top: 10px;
   // padding-bottom: 50px;
@@ -221,12 +221,17 @@ export default {
   margin: auto;
 }
 
-::v-deep .custom-select .v-select__selections {
+:v-deep .custom-select .v-select__selections {
   font-size: 10px;
 }
 
-::v-deep .v-input__control {
+:v-deep .v-input__control {
   // width: 30px;
   padding: 0;
+}
+
+.date {
+  font-size: 14px;
+  font-weight: 600;
 }
 </style>

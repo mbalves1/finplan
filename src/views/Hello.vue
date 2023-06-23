@@ -3,8 +3,8 @@
   <div class="custom">
     <!-- <h1 class="custom--title">fin.<span class="custom--subtitle">plan</span></h1> -->
     <div class="animate one">
-			<span>f</span><span>i</span><span>n</span><span>.</span>
-			<span class="custom--subtitle">p</span><span class="custom--subtitle">l</span><span class="custom--subtitle">a</span><span class="custom--subtitle">n</span>
+			<strong><span>f</span><span>i</span><span>n</span><span>.</span>
+			<span class="custom--subtitle">p</span><span class="custom--subtitle">l</span><span class="custom--subtitle">a</span><span class="custom--subtitle">n</span></strong>
 		</div>
     <img src="../assets/Revenue-bro.svg" class="">
     <v-btn class="custom-btn floating" rounded @click="$router.push('/home')">Login
@@ -17,7 +17,7 @@
 @media screen and (min-width:678px) {
   .custom {
     display: flex;
-    align-items: center;
+    align-items: center !important;
 
     & > img {
       width: 405px;
@@ -87,39 +87,39 @@
 }
 
 .animate span:nth-of-type(2) {
-	animation-delay: .05s;
+	animation-delay: 1.05s;
 }
 .animate span:nth-of-type(3) {
-	animation-delay: .1s;
+	animation-delay: 1.1s;
 }
 .animate span:nth-of-type(4) {
-	animation-delay: .15s;
+	animation-delay: 2.9s;
 }
 .animate span:nth-of-type(5) {
-	animation-delay: .2s;
+	animation-delay: 2.00s;
 }
 .animate span:nth-of-type(6) {
-	animation-delay: .25s;
+	animation-delay: 2.05s;
 }
 .animate span:nth-of-type(7) {
-	animation-delay: .3s;
+	animation-delay: 2.15s;
 }
 .animate span:nth-of-type(8) {
-	animation-delay: .35s;
+	animation-delay: 2.5s;
 }
 
 @keyframes revolveScale {
-	60% {
+	20% {
 		transform: translate(20px, 20px) rotate(30deg) scale(.3);
     color: #FFF;
 	}
 
   70% {
-    color: #FFF;
+    color: rgb(37, 184, 37);
 	}
   
   80% {
-    color: #FFF;
+    color: white;
 	}
 
 	100% {

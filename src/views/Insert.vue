@@ -48,7 +48,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-card class="pa-4 form-card ma-5 mt-6" flat>
+    <v-card class="pa-4 form-card mt-6" flat>
       <form>
         <v-row class="justify-space-between mb-2 mx-1">
           <v-icon @click="$router.push('/home')">
@@ -95,10 +95,10 @@
           type="number"
           :rules="[v => !!v || 'O valor é obrigatório']"
         ></v-text-field>
-
+{{state.select}}
         <v-select
           variant="outlined"
-          v-model="state.select"
+          v-model="state.mounth"
           :items="items"
           label="Mês"
           required
@@ -123,9 +123,9 @@
           :ripple="true"
           variant="outlined"
           size="x-large"
-          color="grey"
+          color="white"
         >
-          submit
+          Registrar
           <!-- <v-icon class="menu-icon right-icon" color="#919191">
             mdi-send
           </v-icon> -->
@@ -150,7 +150,7 @@ import { postReleases } from '@/service/api';
       const initialState = {
         name: '',
         description: '',
-        select: null,
+        mounth: null,
         value: null,
         checkbox: null,
       }
@@ -181,6 +181,7 @@ import { postReleases } from '@/service/api';
       const postReleases = async () => {
         open.value = !open.value
         showSnackbar.value = true
+        console.log(state)
         try {
           await store.dispatch('postReleases', state);
           await store.dispatch('getReleases');

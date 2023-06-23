@@ -1,14 +1,17 @@
 <template>
   <div class="wrapper">
     <v-col class="dashboard">
-      <v-card-title style="color: white">Gráfico de despesas</v-card-title>
-      <v-card flat class="dashboard--sheet">
-        <doughnut-chart :chartData="chartData" :chartOptions="chartOptions"></doughnut-chart>
+        <v-card-title style="color: white" class="mt-5">Gráfico de Receitas</v-card-title>
+        <v-card flat class="dashboard--sheet">
+          <doughnut-chart :chartData="chartDataIn" :chartOptions="chartOptions"></doughnut-chart>
+        </v-card>
 
-        <!-- <pie-chart :chartData="chartDataIn" :chartOptions="chartOptions"></pie-chart> -->
+        <v-card-title style="color: white">Gráfico de despesas</v-card-title>
+        <v-card flat class="dashboard--sheet">
+          <doughnut-chart :chartData="chartData" :chartOptions="chartOptions"></doughnut-chart>
 
-      </v-card>
-    </v-col>
+        </v-card>
+      </v-col>
   </div>
   <Menu></Menu>
 
@@ -16,14 +19,19 @@
 <script>
 import Menu from "@/components/Menu.vue"
 import DoughnutChart from "@/components/shared/DoughnutChart.vue"
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, PointElement } from 'chart.js'
+import { Line } from 'vue-chartjs'
 import { useStore } from 'vuex';
 import { onMounted, ref, computed } from 'vue'
+
+ChartJS.register(ArcElement, Tooltip, Legend, PointElement)
 
  export default {
     name: 'Insert',
     components: {
       Menu,
-      DoughnutChart
+      DoughnutChart,
+      Line
     },
      setup() {
     const store = useStore();
@@ -36,7 +44,7 @@ import { onMounted, ref, computed } from 'vue'
         labels: releasesOut.value.map(rel => rel.name),
         datasets: [
           {
-            backgroundColor: ['#D8F5B5', '#536955', '#336939', '#8FB593', '#B9E9BF', '#74EC82'],
+            backgroundColor: ['#943021', '#C7402C', '#943021', '#D07A6C', '#471710', '#943021'],
             data: releasesOut.value.map(rel => rel.value)
           }
         ]
@@ -54,6 +62,7 @@ import { onMounted, ref, computed } from 'vue'
         ]
       };
     });
+    
 
     const chartOptions = computed(() => {
       return {
@@ -85,11 +94,11 @@ import { onMounted, ref, computed } from 'vue'
   height: 100vh;
   display: flex;
   align-items: flex-start;
-  background: #383838;
+  background: #222;
 }
 .dashboard {
   &--sheet {
-    background: #444444;
+    background: #1f1f1f;
     padding: 20px 40px 20px 0;
   }
 }
